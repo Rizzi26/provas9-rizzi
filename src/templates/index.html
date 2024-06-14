@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visão Computacional</title>
+</head>
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="titleprin">
+                <h2>Aplicação prática de Redes Convolucionais</h2>
+            </div>
+            <div class="container2">
+                <div>
+                    <input type="file" id="inputVideo" />
+                    <button onclick="sendVideo()">Enviar vídeo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendVideo() {
+            const input = document.getElementById('inputVideo');
+            const file = input.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('video', file);
+
+                fetch('/input', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    return response.blob();
+                })
+
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert('Por favor, selecione um arquivo de vídeo primeiro.');
+            }
+        }
+    </script>
+</body>
+</html>
